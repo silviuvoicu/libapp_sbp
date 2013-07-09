@@ -1,4 +1,4 @@
-gi<?php
+<?php
 namespace Context;
 
 use Behat\Behat\Exception\PendingException;
