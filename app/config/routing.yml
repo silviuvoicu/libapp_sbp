@@ -1,0 +1,4 @@
+reader:
+    resource: "@ReaderBundle/Resources/config/routing.yml"
+    prefix:   /
+

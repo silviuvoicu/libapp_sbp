@@ -1,7 +1,7 @@
 <?php
 namespace Context;
 
-use Behat\MinkExtension\Context\MinkContext;
+use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -9,14 +9,14 @@ use Symfony\Component\HttpKernel\KernelInterface;
 //
 // Require 3rd-party libraries here:
 //
-   require_once 'PHPUnit/Autoload.php';
-   require_once 'PHPUnit/Framework/Assert/Functions.php';
+//   require_once 'PHPUnit/Autoload.php';
+//   require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 
 /**
  * Features context.
  */
-class FeatureContext extends MinkContext implements KernelAwareInterface
+class FeatureContext extends RawMinkContext implements KernelAwareInterface
 {
     /**
      * Kernel.

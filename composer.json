@@ -24,14 +24,12 @@
         "jms/di-extra-bundle": "1.3.*"
     },
     "require-dev": {
-        "behat/behat": "2.4.*@dev",
-        "behat/mink-extension": "1.1.*@dev",
-        "behat/mink-goutte-driver": "1.0.*@dev",
-        "behat/mink-selenium2-driver": "1.1.*@dev",
-        "behat/mink-browserkit-driver": "1.1.*@dev",
-        "behat/symfony2-extension": "1.0.*@dev",
-        "phpspec/php-diff": "dev-master",
-        "phpspec/phpspec2": "dev-develop"
+        "behat/behat":                       "2.4.*",
+        "behat/symfony2-extension":          "*",
+        "behat/mink-extension":              "*",
+        "behat/mink-browserkit-driver":      "*",
+        "phpspec/phpspec2":                  "dev-develop",
+        "behat/mink-selenium2-driver":       "*"
     },
     "scripts": {
         "post-install-cmd": [
