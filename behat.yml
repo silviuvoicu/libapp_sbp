@@ -8,7 +8,7 @@ default:
             base_url: "http://www.libapp_sbp.localhost/app_test.php"
             default_session: symfony2
             selenium2: ~
-            browser_name: chrome
+            browser_name: firefox
         Behat\Symfony2Extension\Extension:
             kernel:
                 path: app/AppKernel.php

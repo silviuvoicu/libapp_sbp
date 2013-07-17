@@ -22,24 +22,12 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iFillTheRegisterFormWithValidData()
     {
-//       try 
-//       { 
-           $this->getSession()->visit($this->generateUrl('register'));
+           $this->getSession()->visit($this->getMinkParameter("base_url").$this->generateUrl('register'));
            $this->fillField("reader_email", "reader01@email.com");
            $this->fillField("reader_password", "pass");
            $this->fillField("reader_password_confirmation", "pass");
            $this->pressButton("Register");
-//          if ($this->getSession()->getStatusCode()!= 200 ){
-//              
-//              
-//              throw new \Exception("Exception throw");
-//          }
-          
-//       } 
-//       catch (Exception $e) {
-//           echo 'Caught exception: ',  $e->getMessage(), "\n";
-//       }
-           
+
       
     }
 
