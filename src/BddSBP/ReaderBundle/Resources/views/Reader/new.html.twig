@@ -4,5 +4,6 @@
 {% block title %}The new {% endblock %}
 
 {% block body %}
-   
+{#{ form_start(form, {'action': path('readers_create'), 'method': 'POST'}) }#}
+   {{ form(form) }}
 {% endblock %}

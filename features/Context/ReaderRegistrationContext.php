@@ -24,8 +24,8 @@ class ReaderRegistrationContext extends BaseContext
     {
            $this->getSession()->visit($this->getMinkParameter("base_url").$this->generateUrl('register'));
            $this->fillField("reader_email", "reader01@email.com");
-           $this->fillField("reader_password", "pass");
-           $this->fillField("reader_password_confirmation", "pass");
+           $this->fillField("reader_password_first", "pass");
+           $this->fillField("reader_password_second", "pass");
            $this->pressButton("Register");
 
       
