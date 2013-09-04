@@ -30,6 +30,11 @@ class Reader
     private $password;
     
       /**
+      * @ORM\Column(type="string")
+      */
+    private $salt;
+    
+      /**
       * @ORM\Column(type="datetime")
       */
     private $createdAt;
@@ -60,6 +65,15 @@ class Reader
         return $this->password;
     }
 
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+    }
+
+    public function getSalt()
+    {
+        return $this->salt;
+    }
     public function getId()
     {
         return $this->id;

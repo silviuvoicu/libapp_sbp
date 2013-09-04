@@ -4,7 +4,7 @@
 
 security:
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+        BddSBP\ReaderBundle\Entity\Reader: { algorithm: sha512, iterations: 10 }
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER

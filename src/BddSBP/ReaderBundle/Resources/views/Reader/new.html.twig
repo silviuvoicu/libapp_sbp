@@ -4,6 +4,7 @@
 {% block title %}The new {% endblock %}
 
 {% block body %}
-{#{ form_start(form, {'action': path('readers_create'), 'method': 'POST'}) }#}
-   {{ form(form) }}
+{{ form_start(form, {'action': path('reader_create'), 'method': 'POST', attr:{'novalidate':'novalidate'} } ) }}
+   {{ form_widget(form) }}
+{{ form_end(form) }}
 {% endblock %}

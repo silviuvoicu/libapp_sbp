@@ -9,6 +9,7 @@ default:
             default_session: symfony2
             selenium2: ~
             browser_name: firefox
+            show_cmd: 'firefox %s'
         Behat\Symfony2Extension\Extension:
             kernel:
                 path: app/AppKernel.php

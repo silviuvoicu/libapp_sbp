@@ -5,6 +5,7 @@ namespace spec\BddSBP\ReaderBundle\Form;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ReaderTypeSpec extends ObjectBehavior
 {
@@ -21,7 +22,14 @@ class ReaderTypeSpec extends ObjectBehavior
     {
         $this->getName()->shouldReturn('reader');
     }
-
+    
+    function it_is_setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array('data_class' => Argument::any(),
+                      'validation_groups' => Argument::cetera()
+                ));
+    }
+    
     function it_is_build_form_with_email_and_password(FormBuilder $builder)
     {
         $builder->add('email', 'email', Argument::cetera())->shouldBeCalled()->willReturn($builder);

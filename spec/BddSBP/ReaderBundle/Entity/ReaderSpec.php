@@ -34,9 +34,9 @@ class ReaderSpec extends ObjectBehavior
         $this->getPassword()->shouldReturn('pass');
     }
     
-//    function its_salt_is_mutable()
-//    {
-//        $this->setSalt('salt');
-//        $this->getSalt()->shouldReturn('salt');
-//    }
+    function its_salt_is_mutable()
+    {
+        $this->setSalt('salt');
+        $this->getSalt()->shouldReturn('salt');
+    }
 }

@@ -26,7 +26,7 @@ class ReaderRegistrationContext extends BaseContext
            $this->fillField("reader_email", "reader01@email.com");
            $this->fillField("reader_password_first", "pass");
            $this->fillField("reader_password_second", "pass");
-           $this->pressButton("Register");
+           $this->pressButton("reader_register");
 
       
     }
@@ -36,7 +36,9 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iShouldBeRegisteredInApplication()
     {
-        throw new PendingException();
+       $em= $this->getEntityManager();
+       $reader = $em->getRepository("ReaderBundle:Reader")->findOneByEmail("reader01@email.com");
+       assertNotNull($reader,"Reader was't register in ");
     }
 
     /**

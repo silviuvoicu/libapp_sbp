@@ -1,6 +1,6 @@
-#register:
-#    pattern:  /register
-#    defaults: { _controller: ReaderBundle:Reader:new }
+home:
+    pattern:  /
+    defaults: { _controller: ReaderBundle:Default:index}
 reader:
     resource: "@ReaderBundle/Controller/ReaderController.php"
     type:     annotation

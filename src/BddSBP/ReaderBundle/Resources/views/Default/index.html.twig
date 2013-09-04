@@ -1,1 +1,9 @@
-Hello {{ name }}!
+{% extends '::base.html.twig' %}
+
+{% block title %}Home {% endblock %}
+
+{% block body %}
+<a href="{{ path('home') }}">Home</a>
+<br/>
+<a href= "{{ path('register') }}" > Register</a>
+{% endblock %}

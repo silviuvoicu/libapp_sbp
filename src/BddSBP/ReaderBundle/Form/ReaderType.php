@@ -13,7 +13,15 @@ class ReaderType extends AbstractType
     {
         return 'reader';
     }
-
+   
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'BddSBP\ReaderBundle\Entity\Reader',
+            'validation_groups' => array('default', 'register')
+        ));
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('email', 'email',  array('label' => 'Email', 'attr' => array(
