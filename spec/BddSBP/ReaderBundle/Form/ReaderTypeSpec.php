@@ -25,9 +25,11 @@ class ReaderTypeSpec extends ObjectBehavior
     
     function it_is_setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('data_class' => Argument::any(),
-                      'validation_groups' => Argument::cetera()
-                ));
+        $resolver->setDefaults(array('data_class' => 'BddSBP\ReaderBundle\Entity\Reader')
+//                ,
+//                      'validation_groups' => Argument::cetera()
+                )->shouldBeCalled();
+        $this->setDefaultOptions($resolver);
     }
     
     function it_is_build_form_with_email_and_password(FormBuilder $builder)

@@ -23,6 +23,7 @@ class ReaderController extends Controller
     public function newAction()
     {
         $reader = new Reader();
+       
         $form  = $this->createForm(new ReaderType(), $reader);
         
         return array(
@@ -41,7 +42,7 @@ class ReaderController extends Controller
     public function createAction(Request $request)
     {
         $reader  = new Reader();
-        //var_dump($reader);  die;
+       
         $form = $this->createForm(new ReaderType(), $reader);
         $form->handleRequest($request);
 
@@ -49,15 +50,14 @@ class ReaderController extends Controller
            $reader = $form->getData();
        
             $reader->setSalt(md5(time()));
-//
+
             $encoder = $this->container->get('security.encoder_factory')->getEncoder($reader);
             $encodedPassword = $encoder->encodePassword(
                     $reader->getPassword(),
                     $reader->getSalt()
                 );
             $reader->setPassword($encodedPassword);
-////
-//            
+
             $em = $this->container->get('doctrine')->getManager();
             $em->persist($reader);
             $em->flush();

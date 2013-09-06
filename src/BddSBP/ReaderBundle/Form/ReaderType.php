@@ -17,8 +17,9 @@ class ReaderType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'BddSBP\ReaderBundle\Entity\Reader',
-            'validation_groups' => array('default', 'register')
+            'data_class' => 'BddSBP\ReaderBundle\Entity\Reader'
+//            ,
+//            'validation_groups' => array('default', 'register')
         ));
     }
     

@@ -3,11 +3,15 @@
 namespace BddSBP\ReaderBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+
 
 /**
  * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="readers")
+ * @DoctrineAssert\UniqueEntity(fields="email", message="A reader with this email already exist. Please enter another email")
  */
 
 class Reader
@@ -21,11 +25,15 @@ class Reader
     
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Pelease enter an email address")
+     * @Assert\Email(message="This mail '{{ value }}' is not a valid email adddress")
      */
     private $email;
     
       /**
       * @ORM\Column(type="string")
+       * @Assert\NotBlank(message="Please enter a password")
+       * @Assert\Length(min=8,minMessage="The Password must be at least {{ limit }} characters")
       */
     private $password;
     

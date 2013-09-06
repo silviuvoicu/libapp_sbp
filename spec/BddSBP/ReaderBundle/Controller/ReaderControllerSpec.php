@@ -99,6 +99,22 @@ class ReaderControllerSpec extends ObjectBehavior
         $response->shouldBeAnInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse');
     }
 
-    
+    function its_createAction_should_render_new_form_when_form_is_invalid($request,$reader, $readertype, $flashBag,$form, $formView, $formFactory) {
+        $formFactory->create($readertype, $reader)->willReturn($form);
+        $form->handleRequest($request)->willReturn($form);
+        $form->isValid()->willReturn(false);
+        $form->createView()->willReturn($formView);
+        
+        $flashBag->add(
+            'errors',
+            'Something went wrong. Please correct the registration form'
+        )->shouldBeCalled();
+        
+        $this->createAction($request)->shouldReturn(
+                                         array(
+                                           'form' => $formView
+                                        )
+                                      );
+    }
     
 }
