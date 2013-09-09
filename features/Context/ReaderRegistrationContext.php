@@ -22,7 +22,7 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iFillTheRegisterFormWithValidData()
     {
-           $this->getSession()->visit($this->getMinkParameter("base_url").$this->generateUrl('register'));
+           $this->visit($this->getMinkParameter("base_url").$this->generateUrl('register'));
            $this->fillField("reader_email", "reader01@email.com");
            $this->fillField("reader_password_first", "password");
            $this->fillField("reader_password_second", "password");
@@ -46,7 +46,7 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iShouldBeLoggedIn()
     {
-        throw new PendingException();
+        $this->assertPageContainsText("Welcome, reader01@email.com");
     }
 
     /**
@@ -54,7 +54,7 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iFillTheRegisterFormWithInvalidData()
     {
-           $this->getSession()->visit($this->getMinkParameter("base_url").$this->generateUrl('register'));
+           $this->visit($this->getMinkParameter("base_url").$this->generateUrl('register'));
            $this->fillField("reader_email", "");
            $this->fillField("reader_password_first", "passdhhdhdd");
            $this->fillField("reader_password_second", "pass");
@@ -79,7 +79,24 @@ class ReaderRegistrationContext extends BaseContext
         assertNull($reader);
     }
 
-    
+     /**
+     * @When /^I go to home page$/
+     */
+    public function iGoToHomePage()
+    {
+        $this->visit($this->getMinkParameter("base_url").$this->generateUrl('home'));
+    }
+
+    /**
+     * @Then /^I should see guest menu$/
+     */
+    public function iShouldSeeGuestMenu()
+    {
+        $this->assertElementOnPage('#top-menu');
+      
+       assertNotNull($this->getMink()->getSession()->getPage()->findLink("Register"),"Register link not found") ;
+    }
+
 }
 
 ?>

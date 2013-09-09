@@ -70,7 +70,7 @@ class ReaderControllerSpec extends ObjectBehavior
                             );
     }
     
-     function its_createAction_should_save_the_Reader_when_form_is_valid($request, $flashBag,$encoderFactory , $encoder,$form, $formFactory, $entityManager, Reader $reader,ReaderType $readertype) {
+     function its_createAction_should_save_the_Reader_when_form_is_valid($request,$router, $flashBag,$encoderFactory , $encoder,$form, $formFactory, $entityManager, Reader $reader,ReaderType $readertype) {
         $encodedPassword = '';
         $formFactory->create($readertype, $reader)->willReturn($form);
         $form->handleRequest($request)->willReturn($form);
@@ -94,9 +94,10 @@ class ReaderControllerSpec extends ObjectBehavior
             'success',
             'You registered !'
         )->shouldBeCalled();
-        
+        $router->generate("home")->willReturn('/');
         $response = $this->createAction($request);
         $response->shouldBeAnInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse');
+        $response->getTargetUrl()->shouldBe("/");
     }
 
     function its_createAction_should_render_new_form_when_form_is_invalid($request,$reader, $readertype, $flashBag,$form, $formView, $formFactory) {

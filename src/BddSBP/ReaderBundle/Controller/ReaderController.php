@@ -65,7 +65,8 @@ class ReaderController extends Controller
             'success',
             'You registered !'
            );
-            return $this->redirect($this->generateUrl('home'));
+            $url = $this->container->get('router')->generate('home');
+            return $this->redirect($url);
         }
          $this->container->get('session')->getFlashBag()->add(
             'errors',
