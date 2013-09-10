@@ -10,4 +10,6 @@ reader_login:
    defaults:  { _controller: ReaderBundle:Security:login }
 reader_login_check:
    pattern:   /login_check
+logout:
+    path:   /logout   
 

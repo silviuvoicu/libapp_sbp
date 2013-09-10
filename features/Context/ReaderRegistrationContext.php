@@ -156,6 +156,23 @@ class ReaderRegistrationContext extends BaseContext
         $this->assertPageContainsText("Welcome, $email");
     }
 
+     /**
+     * @When /^I go to logout page$/
+     */
+    public function iGoToLogoutPage()
+    {
+        $this->visit($this->getMinkParameter("base_url").$this->generateUrl('logout'));
+    }
+
+    /**
+     * @Then /^I should be logged out$/
+     */
+    public function iShouldBeLoggedOut()
+    {
+        $this->assertPageNotContainsText('Welcome');
+        $this->assertPageContainsText('Register');
+    }
+
 
 }
 

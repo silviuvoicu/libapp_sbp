@@ -26,6 +26,9 @@ security:
             form_login:
                 login_path:  reader_login
                 check_path:  reader_login_check
+            logout:
+                path:   /logout
+                target: /    
             #anonymous: ~
             #http_basic:
             #    realm: "Secured Demo Area"
