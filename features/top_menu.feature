@@ -5,7 +5,12 @@ Feature: Top menu
   Reader sees his email, Account link and Logout link
   Admin sees the same thing the reader does, but also the link to admin panel.
 
-  Scenario: Guest user
-    Given I am a guest
-    When I go to home page
-    Then I should see guest menu
+   Scenario: Guest user
+      Given I am a guest
+      When I go to home page
+      Then I should see guest menu
+
+   Scenario: Reader
+      Given I am a "john@reader.com" reader
+      When I go to home page
+      Then I should see "john@reader.com" reader menu

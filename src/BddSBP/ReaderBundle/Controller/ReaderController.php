@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use BddSBP\ReaderBundle\Entity\Reader;
 use BddSBP\ReaderBundle\Form\ReaderType;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class ReaderController extends Controller
 {
@@ -65,6 +66,9 @@ class ReaderController extends Controller
             'success',
             'You registered !'
            );
+          // var_dump($reader->getRoles());die;
+            $token = new UsernamePasswordToken($reader, $reader->getPassword(), 'readers', $reader->getRoles());
+            $this->container->get('security.context')->setToken($token);
             $url = $this->container->get('router')->generate('home');
             return $this->redirect($url);
         }

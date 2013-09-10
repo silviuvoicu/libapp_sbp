@@ -5,3 +5,9 @@ reader:
     resource: "@ReaderBundle/Controller/ReaderController.php"
     type:     annotation
     prefix:   /
+reader_login:
+   pattern:   /login
+   defaults:  { _controller: ReaderBundle:Security:login }
+reader_login_check:
+   pattern:   /login_check
+

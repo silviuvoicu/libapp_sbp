@@ -7,10 +7,15 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <a href="{{ path('home') }}">Home</a>
-        <div id="top-menu">
-             <a href= "{{ path('register') }}" >Register</a>
+        <div id="top-menu" >
+      {% if app.user %}
+       {{ top_menu() }} 
+       {% else %}
+      <a href="{{ path('register') }}" >{{ top_menu() }}  </a>
+      {% endif %}
+               
         </div>
+        
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
             

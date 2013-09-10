@@ -20,19 +20,21 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use BddSBP\ReaderBundle\Entity\Reader;
 use BddSBP\ReaderBundle\Form\ReaderType;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\SecurityContext;
 use \stdClass;
 
 class ReaderControllerSpec extends ObjectBehavior
 {
     
-    function let(Container $container, Registry $doctrine,EntityManager $entityManager,EntityRepository $repository, Request $request, FormFactory $formFactory, FormBuilder $formBuilder, Form $form, FormView $formView, Router $router, Session $session, FlashBag $flashBag,EncoderFactory $encoderFactory, MessageDigestPasswordEncoder $encoder) {
+    function let(Container $container, Registry $doctrine,EntityManager $entityManager,EntityRepository $repository, Request $request, FormFactory $formFactory, FormBuilder $formBuilder, Form $form, FormView $formView, Router $router, Session $session, FlashBag $flashBag,EncoderFactory $encoderFactory, MessageDigestPasswordEncoder $encoder,SecurityContext $securityContext, UsernamePasswordToken $token) {
         $container->get('doctrine')->willReturn($doctrine);
         $container->get('form.factory')->willReturn($formFactory);
         $container->get('request')->willReturn($request);
         $container->get('router')->willReturn($router);
         $container->get('session')->willReturn($session);
         $container->get('security.encoder_factory')->willReturn($encoderFactory);
-       
+        $container->get('security.context')->willReturn($securityContext);
         $session->getFlashBag()->willReturn($flashBag);
 
         $router->generate(Argument::cetera())->willReturn('url');
@@ -45,6 +47,7 @@ class ReaderControllerSpec extends ObjectBehavior
         $doctrine->getManager()->willReturn($entityManager);
         $entityManager->getRepository(Argument::any())->willReturn($repository);
         $encoderFactory->getEncoder(Argument::any())->willReturn($encoder);
+        $securityContext->setToken(Argument::any())->willReturn($token);
      
         $this->setContainer($container);
     }
@@ -70,7 +73,7 @@ class ReaderControllerSpec extends ObjectBehavior
                             );
     }
     
-     function its_createAction_should_save_the_Reader_when_form_is_valid($request,$router, $flashBag,$encoderFactory , $encoder,$form, $formFactory, $entityManager, Reader $reader,ReaderType $readertype) {
+     function its_createAction_should_save_the_Reader_when_form_is_valid($request,$router, $flashBag,$encoderFactory , $encoder,$form, $formFactory, $entityManager, Reader $reader,ReaderType $readertype, UsernamePasswordToken $token, SecurityContext $securityContext) {
         $encodedPassword = '';
         $formFactory->create($readertype, $reader)->willReturn($form);
         $form->handleRequest($request)->willReturn($form);
@@ -94,6 +97,9 @@ class ReaderControllerSpec extends ObjectBehavior
             'success',
             'You registered !'
         )->shouldBeCalled();
+        //var_dump($reader->getRoles());die;
+        $reader->getRoles()->shouldBeCalled()->willReturn(array());
+        $securityContext->setToken($token);
         $router->generate("home")->willReturn('/');
         $response = $this->createAction($request);
         $response->shouldBeAnInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse');

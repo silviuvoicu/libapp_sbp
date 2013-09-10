@@ -12,6 +12,25 @@ class ReaderSpec extends ObjectBehavior
         $this->shouldHaveType('BddSBP\ReaderBundle\Entity\Reader');
     }
     
+    function it_should_implement_userInterface()
+    {
+        $this->shouldImplement('Symfony\Component\Security\Core\User\UserInterface');
+    }
+    function it_should_implement_Serializable()
+    {
+        $this->shouldImplement('\Serializable');
+    }
+    
+    function it_should_getRoles()
+    {
+        $this->getRoles()->shouldReturn(array('ROLE_USER'));
+    }
+    
+    function it_should_getUsername()
+    { 
+        $this->setEmail('bob@reader.com');
+        $this->getUsername()->shouldReturn($this->getEmail());
+    }
      function it_should_exist()
     {
         $this->shouldNotBe(null);

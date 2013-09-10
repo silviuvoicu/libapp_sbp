@@ -5,6 +5,7 @@ namespace BddSBP\ReaderBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 
 /**
@@ -14,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  * @DoctrineAssert\UniqueEntity(fields="email", message="A reader with this email already exist. Please enter another email")
  */
 
-class Reader
+class Reader implements UserInterface,\Serializable
 {
     /**
      * @ORM\Id
@@ -103,4 +104,40 @@ class Reader
    {
     $this->updatedAt = new \DateTime();
    }
+
+    public function eraseCredentials() {
+        
+    }
+
+    public function getRoles() {
+        return array('ROLE_USER');
+    }
+
+    public function getUsername() {
+        return $this->getEmail();
+    }
+
+    /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id, $this->email,$this->password,$this->salt,$this->createdAt,$this->updatedAt
+        ));
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id, $this->email,$this->password,$this->salt,$this->createdAt,$this->updatedAt
+        ) = unserialize($serialized);
+    }
+    
+    public function __toString() {
+        return $this->getUsername();
+    }
 }

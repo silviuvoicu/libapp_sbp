@@ -10,3 +10,8 @@ services:
        arguments: ['@kernel']
        tags:
           - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+    twig.extension.reader:
+        class: BddSBP\ReaderBundle\Twig\Extension\ReaderExtension
+        arguments: ['@security.context']
+        tags:
+            - { name: twig.extension }
