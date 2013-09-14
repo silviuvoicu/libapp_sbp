@@ -26,9 +26,14 @@ security:
             form_login:
                 login_path:  reader_login
                 check_path:  reader_login_check
+                success_handler: reader.security.login_handler
             logout:
                 path:   /logout
-                target: /    
+                target: / 
+                # for php 5.4.9 the problem with Logout action: SessionHandler::write():
+                # Parent session handler is not open fix in php 5.4.11
+                invalidate_session: false
+                
             #anonymous: ~
             #http_basic:
             #    realm: "Secured Demo Area"

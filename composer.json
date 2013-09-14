@@ -4,15 +4,27 @@
     "type": "project",
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
-        "psr-0": { "": "src/" }
-    },
+        "psr-0": {"": "src/"}
+    },"repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "jquery/jquery",
+                "version": "1.9.1",
+                "dist": {
+                    "url": "http://code.jquery.com/jquery-1.9.1.js",
+                    "type": "file"
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.3.*",
         "doctrine/orm": ">=2.2.3,<2.4-dev",
         "doctrine/doctrine-bundle": "1.2.*",
-        "doctrine/doctrine-fixtures-bundle":   "dev-master",
-        "doctrine/data-fixtures": "dev-master" ,
+        "doctrine/doctrine-fixtures-bundle": "dev-master",
+        "doctrine/data-fixtures": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "doctrine/migrations": "dev-master",
         "twig/extensions": "1.0.*",
@@ -25,15 +37,20 @@
         "jms/aop-bundle": "1.1.*@dev",
         "jms/di-extra-bundle": "1.4.0",
         "jms/security-extra-bundle": "1.5.1",
+        "braincrafted/bootstrap-bundle": "dev-master",
+        "twbs/bootstrap": "2.3.*",
+        "jquery/jquery": "1.9.*",
+        "leafo/lessphp": "v0.4.0",
         "incenteev/composer-parameter-handler": "~2.0"
-    }, 
+   
+    },
     "require-dev": {
-        "behat/behat":                       "~2.5.0",
-        "behat/symfony2-extension":          "*",
-        "behat/mink-extension":              "*",
-        "behat/mink-browserkit-driver":      "*",
-        "phpspec/phpspec":                  "dev-master",
-        "behat/mink-selenium2-driver":       "*"
+        "behat/behat": "~2.5.0",
+        "behat/symfony2-extension": "*",
+        "behat/mink-extension": "*",
+        "behat/mink-browserkit-driver": "*",
+        "phpspec/phpspec": "dev-master",
+        "behat/mink-selenium2-driver": "*"
     },
     "scripts": {
         "post-install-cmd": [
@@ -62,7 +79,7 @@
             "file": "app/config/parameters.yml"
         },
         "branch-alias": {
-            "dev-master": "2.3-dev"
+            "dev-master": "2.3.*"
         }
     }
 }

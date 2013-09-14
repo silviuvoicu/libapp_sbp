@@ -27,6 +27,8 @@ class ReaderController extends Controller
        
         $form  = $this->createForm(new ReaderType(), $reader);
         
+//        var_dump($form->createView());die;
+        
         return array(
             'form'   => $form->createView()
         );

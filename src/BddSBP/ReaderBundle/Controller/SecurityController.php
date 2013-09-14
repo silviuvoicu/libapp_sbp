@@ -21,13 +21,27 @@ class SecurityController extends Controller
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
-
+        if ($error)
+        {
+             $this->container->get('session')->getFlashBag()->add(
+            'errors',
+            'Something went wrong. Please provide correct credentials'
+             );
+        } 
+//        elseif()
+//        {
+//             $this->container->get('session')->getFlashBag()->add(
+//            'success',
+//            'You\'re logged in '
+//           );     
+//        }
+        
         return $this->render(
             'ReaderBundle:Security:login.html.twig',
             array(
                 // last username entered by the user
                 'last_username' => $session->get(SecurityContext::LAST_USERNAME),
-                'error'         => $error,
+                //'error'         => $error,
             )
         );
     }

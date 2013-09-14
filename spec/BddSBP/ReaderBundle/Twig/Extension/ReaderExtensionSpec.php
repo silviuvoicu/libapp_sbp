@@ -6,12 +6,13 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 class ReaderExtensionSpec extends ObjectBehavior
 {
-    function let(SecurityContext $securityContext)
+    function let(SecurityContext $securityContext, Router $router)
     {
-        $this->beConstructedWith($securityContext);
+        $this->beConstructedWith($securityContext,$router);
     }
     function it_is_initializable()
     {
@@ -27,7 +28,7 @@ class ReaderExtensionSpec extends ObjectBehavior
    {
        $securityContext->getToken()->willReturn($token);
        $token->getUser()->willReturn('anon.');
-       $this->topmenu()->shouldReturn('Register');
+       $this->topmenu()->shouldBeString('Register');
    } 
    
    function it_has_welcome_message_if_reader_is_logged_in(SecurityContext $securityContext, TokenInterface $token)
@@ -35,6 +36,6 @@ class ReaderExtensionSpec extends ObjectBehavior
        $reader = '';
        $securityContext->getToken()->willReturn($token);
        $token->getUser()->willReturn($reader);
-       $this->topmenu()->shouldReturn("Welcome, $reader");
+       $this->topmenu()->shouldBeString("Welcome, $reader");
    }
 }

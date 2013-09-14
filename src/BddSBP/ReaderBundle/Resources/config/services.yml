@@ -1,17 +1,22 @@
 parameters:
-#    reader.example.class: BddSBP\ReaderBundle\Example
-
+    behat.listener.class: BddSBP\ReaderBundle\Listener\BehatListener
+    reader.extension.class: BddSBP\ReaderBundle\Twig\Extension\ReaderExtension
+    reader.security.login_handler.class: BddSBP\ReaderBundle\Authentication\Handler\ReaderLoginSuccessHandler
 services:
 #    reader.example:
 #        class: %reader.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
     behat.listener:
-       class: BddSBP\ReaderBundle\Listener\BehatListener
+       class: %behat.listener.class%
        arguments: ['@kernel']
        tags:
           - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
     twig.extension.reader:
-        class: BddSBP\ReaderBundle\Twig\Extension\ReaderExtension
-        arguments: ['@security.context']
+        class: %reader.extension.class%
+        arguments: ['@security.context','@router']
         tags:
             - { name: twig.extension }
+    reader.security.login_handler:
+       class:  %reader.security.login_handler.class%
+       arguments: ['@security.context','@session','@router']
+       

@@ -2,23 +2,64 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %} {% endblock %} Libapp </title>
+        {% block stylesheets %} 
+        <link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet" />
+        <link href="{{ asset('/css/bootstrap_bootstrap_1.css') }}" rel="stylesheet" />
+        <link href="{{ asset('/css/bootstrap_responsive_2.css') }}" rel="stylesheet" />
+         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <div id="top-menu" >
-      {% if app.user %}
-       {{ top_menu() }} 
-       {% else %}
-      <a href="{{ path('register') }}" >{{ top_menu() }}  </a>
-      {% endif %}
-               
-        </div>
-        
+        <div class="container">
+            <div class="navbar" id="top-menu"> 
+                <div class="navbar-inner">
+                    <a href=" {{ path("home") }}" class="brand">Library App</a>
+                    {{ top_menu()|raw }}
+                </div> 
+            </div>        
+
+            <div class="row span6 offset3">
+      
+          {% for flashMessage in app.session.flashbag.get('success') %}    
+                    <div class="alert alert-success">
+            {{ flashMessage }}
+                        </div>
+          {% endfor %}     
+     
+     
+         {% for flashMessage in app.session.flashbag.get('errors') %}       
+                        <div class="alert alert-error">
+          {{ flashMessage }}
+                            </div>
+          {% endfor %}    
+     
+                        </div>
+
+                        <div class="clear"></div>
+
+
+                    </div>
+
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-            
-                 
-    </body>
-</html>
+        {% block javascripts %}
+                    <script src="{{ asset('/js/jquery.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap_bootstrap-transition_1.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap_bootstrap-alert_2.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap_bootstrap-button_3.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap_bootstrap-carousel_4.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap_bootstrap-collapse_5.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap_bootstrap-dropdown_6.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap_bootstrap-modal_7.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap_bootstrap-tooltip_8.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap_bootstrap-popover_9.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap_bootstrap-scrollspy_10.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap_bootstrap-tab_11.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap_bootstrap-typeahead_12.js') }}"></script>
+                    <script src="{{ asset('/js/bootstrap_bootstrap-affix_13.js') }}"></script>
+        {% endblock %}
+
+
+                </body>
+            </html>

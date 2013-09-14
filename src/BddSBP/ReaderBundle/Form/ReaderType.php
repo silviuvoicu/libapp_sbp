@@ -31,10 +31,9 @@ class ReaderType extends AbstractType
                 'type' => 'password',
                 'invalid_message' => 'The passwords doesn\'t match',
                 'first_options'  => array('label' => 'Password','attr' => array('placeholder' => 'Password')),
-                'second_options' => array('label' => 'Password Confirmation', 'attr' => array('placeholder' => 'Password Confirmation')),
+                'second_options' => array('label' => 'Password Confirmation', 'attr' => array('placeholder' => 'Type password again')),
                 'required' => false
-            ))->add('register', 'submit'
-                    );
+            ))->add('register', 'submit',array('attr' => array('class' => 'btn btn-primary')));
 
     }
 }
