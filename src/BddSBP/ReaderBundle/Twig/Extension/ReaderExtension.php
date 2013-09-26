@@ -22,12 +22,12 @@ class ReaderExtension extends \Twig_Extension
     public function topmenu()
     {  
        $reader = $this->securityContext->getToken()->getUser();
-//       $result= '<ul class="nav pull-left">
-//                    <li>
-//                      <a href="{{ path("books") }}">Books</a>
-//                    </li>
-//              </ul>';
-       $result = ' <ul class="nav pull-right">';
+       $result= '<ul class="nav pull-left">
+                    <li>
+                      <a href="'.$this->router->generate('books').'">Books</a>
+                    </li>
+              </ul>';
+       $result .= ' <ul class="nav pull-right">';
        if ($reader === 'anon.'){
          $result.=" <li>
                       <a href='".$this->router->generate('register'). "'>Register</a>

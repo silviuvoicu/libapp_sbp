@@ -1,0 +1,14 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<div class="row span4 offset4">
+  <h2>Add new book</h2>
+  {{ include(
+            'ReaderBundle:Book:_form.html.twig',
+            { 'form': form,'action': path('book_create') , 'id':'book_new' ,'class':'book_new',
+             'Submit_Action':'Create Book' }
+        ) }}
+</div>
+{% endblock %}

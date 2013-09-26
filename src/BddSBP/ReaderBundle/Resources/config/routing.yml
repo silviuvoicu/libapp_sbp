@@ -5,6 +5,10 @@ reader:
     resource: "@ReaderBundle/Controller/ReaderController.php"
     type:     annotation
     prefix:   /
+book:
+    resource: "@ReaderBundle/Controller/BookController.php"
+    type:     annotation
+    prefix:   /books    
 reader_login:
    pattern:   /login
    defaults:  { _controller: ReaderBundle:Security:login }

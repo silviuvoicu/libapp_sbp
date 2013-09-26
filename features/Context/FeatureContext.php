@@ -2,6 +2,7 @@
 namespace Context;
 
 use Behat\MinkExtension\Context\RawMinkContext;
+use Behat\MinkExtension\Context\MinkContext;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -43,7 +44,9 @@ class FeatureContext extends RawMinkContext implements KernelAwareInterface
 
         //reader context
         
-         $this->useContext('reader_registration', new ReaderRegistrationContext($parameters));  
+         $this->useContext('reader_registration', new ReaderRegistrationContext($parameters)); 
+         $this->useContext('books_management', new BookContext($parameters)); 
+         $this->useContext('mink', new  MinkContext()); 
          
          
         

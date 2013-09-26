@@ -1,7 +1,7 @@
 <?php
 namespace Context;
 
-use Behat\MinkExtension\Context\MinkContext;
+use Behat\Behat\Context\BehatContext;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  * Base context class.
  *
  */
-abstract class BaseContext extends MinkContext implements KernelAwareInterface
+abstract class BaseContext extends BehatContext implements KernelAwareInterface
 {
     /**
      * Kernel.

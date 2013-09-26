@@ -1,0 +1,16 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<ul class="thumbnails">
+  {% for book in books %}
+    <li class="span4">
+      <img data-src="holder.js/150x200" alt="">
+      <h3><a href="{{ path('book_show',{ 'id': book.id }) }}" > {{ book.title}}</a> </h3>
+      <p>{{ book.author }}</p>
+    </li>
+{% endfor %}
+</ul>
+ </div>
+{% endblock %}

@@ -1,8 +1,10 @@
 <?php
 namespace Context;
 
+use Context\BaseContext;
 use Behat\Behat\Exception\PendingException;
 use Behat\Behat\Context\Step;
+
 use BddSBP\ReaderBundle\Entity\Reader;
 
 require_once 'PHPUnit/Autoload.php';
@@ -11,7 +13,7 @@ require_once 'PHPUnit/Framework/Assert/Functions.php';
 class ReaderRegistrationContext extends BaseContext
 {
     
-      /**
+    /**
      * @Given /^I am a guest$/
      */
     public function iAmAGuest()
@@ -24,11 +26,11 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iFillTheRegisterFormWithValidData()
     {
-           $this->visit($this->getMinkParameter("base_url").$this->generateUrl('register'));
-           $this->fillField("reader_email", "reader01@email.com");
-           $this->fillField("reader_password_first", "password");
-           $this->fillField("reader_password_second", "password");
-           $this->pressButton("reader_register");
+           $this->getMainContext()->getSubcontext('mink')->visit($this->getMainContext()->getSubcontext('mink')->getMinkParameter("base_url").$this->generateUrl('register'));
+           $this->getMainContext()->getSubcontext('mink')->fillField("reader_email", "reader01@email.com");
+           $this->getMainContext()->getSubcontext('mink')->fillField("reader_password_first", "password");
+           $this->getMainContext()->getSubcontext('mink')->fillField("reader_password_second", "password");
+           $this->getMainContext()->getSubcontext('mink')->pressButton("reader_register");
 
       
     }
@@ -48,7 +50,7 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iShouldBeLoggedIn()
     {
-        $this->assertPageContainsText("Welcome, reader01@email.com");
+        $this->getMainContext()->getSubcontext('mink')->assertPageContainsText("Welcome, reader01@email.com");
     }
 
     /**
@@ -56,11 +58,11 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iFillTheRegisterFormWithInvalidData()
     {
-           $this->visit($this->getMinkParameter("base_url").$this->generateUrl('register'));
-           $this->fillField("reader_email", "");
-           $this->fillField("reader_password_first", "passdhhdhdd");
-           $this->fillField("reader_password_second", "pass");
-           $this->pressButton("reader_register");
+           $this->getMainContext()->getSubcontext('mink')->visit($this->getMainContext()->getSubcontext('mink')->getMinkParameter("base_url").$this->generateUrl('register'));
+           $this->getMainContext()->getSubcontext('mink')->fillField("reader_email", "");
+           $this->getMainContext()->getSubcontext('mink')->fillField("reader_password_first", "passdhhdhdd");
+           $this->getMainContext()->getSubcontext('mink')->fillField("reader_password_second", "pass");
+           $this->getMainContext()->getSubcontext('mink')->pressButton("reader_register");
     }
 
     /**
@@ -68,7 +70,7 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iShouldSeeTheRegisterFormAgain()
     {
-        $this->assertElementOnPage('form#new_reader');
+        $this->getMainContext()->getSubcontext('mink')->assertElementOnPage('form#new_reader');
     }
 
     /**
@@ -86,7 +88,7 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iGoToHomePage()
     {
-        $this->visit($this->getMinkParameter("base_url").$this->generateUrl('home'));
+        $this->getMainContext()->getSubcontext('mink')->visit($this->getMainContext()->getSubcontext('mink')->getMinkParameter("base_url").$this->generateUrl('home'));
     }
 
     /**
@@ -94,9 +96,9 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iShouldSeeGuestMenu()
     {
-        $this->assertElementOnPage('#top-menu');
+        $this->getMainContext()->getSubcontext('mink')->assertElementOnPage('#top-menu');
       
-       assertNotNull($this->getMink()->getSession()->getPage()->findLink("Register"),"Register link not found") ;
+       assertNotNull($this->getMainContext()->getSubcontext('mink')->getMink()->getSession()->getPage()->findLink("Register"),"Register link not found") ;
     }
     
      /**
@@ -141,10 +143,10 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iFillTheLoginFormWithValidDataForReader($email)
     {
-         $this->visit($this->getMinkParameter("base_url").$this->generateUrl('reader_login'));
-         $this->fillField("username", $email);
-         $this->fillField("password", "password");
-         $this->pressButton("Login");
+         $this->getMainContext()->getSubcontext('mink')->visit($this->getMainContext()->getSubcontext('mink')->getMinkParameter("base_url").$this->generateUrl('reader_login'));
+         $this->getMainContext()->getSubcontext('mink')->fillField("username", $email);
+         $this->getMainContext()->getSubcontext('mink')->fillField("password", "password");
+         $this->getMainContext()->getSubcontext('mink')->pressButton("Login");
          
     }
 
@@ -153,7 +155,7 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iShouldBeLoggedInAsReader($email)
     {
-        $this->assertPageContainsText("Welcome, $email");
+        $this->getMainContext()->getSubcontext('mink')->assertPageContainsText("Welcome, $email");
     }
 
      /**
@@ -161,7 +163,7 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iGoToLogoutPage()
     {
-        $this->visit($this->getMinkParameter("base_url").$this->generateUrl('logout'));
+        $this->getMainContext()->getSubcontext('mink')->visit($this->getMainContext()->getSubcontext('mink')->getMinkParameter("base_url").$this->generateUrl('logout'));
     }
 
     /**
@@ -169,8 +171,8 @@ class ReaderRegistrationContext extends BaseContext
      */
     public function iShouldBeLoggedOut()
     {
-        $this->assertPageNotContainsText('Welcome');
-        $this->assertPageContainsText('Register');
+        $this->getMainContext()->getSubcontext('mink')->assertPageNotContainsText('Welcome');
+        $this->getMainContext()->getSubcontext('mink')->assertPageContainsText('Register');
     }
 
 

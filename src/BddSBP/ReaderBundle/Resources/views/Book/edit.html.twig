@@ -1,0 +1,24 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{% endblock %}
+
+
+{% block body %}
+<div class="row span4 offset4">
+  <h2>Edit Book Details</h2>
+ {{ include(
+            'ReaderBundle:Book:_form.html.twig',
+            { 'form': edit_form,'action': path('book_update',{'id':book.id}) , 'id':'edit_book_'~ book.id  ,'class':'edit_book'
+             ,'Submit_Action':'Update Book'}
+        ) }}
+
+  <form style="display:inline" class="pull-center"  action="{{ path('book_delete', { 'id': book.id }) }}" method="post">
+      
+         <input type="hidden" name="_method" value="DELETE" />
+           {{ form_widget(delete_form) }}
+         <button style="display:inline"  type="submit" class="btn btn-danger">Delete</button>
+         
+      </form>
+</div>
+ </div>
+{% endblock %}
