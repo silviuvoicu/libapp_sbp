@@ -194,5 +194,22 @@ class BookContext extends BaseContext
     {
          $this->getMainContext()->getSubcontext('mink')->assertPageNotContainsText($title);
     }
+    
+     /**
+     * @When /^I go to new book page$/
+     */
+    public function iGoToNewBookPage()
+    {
+        $this->getMainContext()->getSubcontext('mink')->visit($this->getMainContext()->getSubcontext('mink')->getMinkParameter("base_url").$this->generateUrl('book_new'));
+    }
+
+    /**
+     * @Then /^I should be redirected to access denied page$/
+     */
+    public function iShouldBeRedirectedToAccessDeniedPage()
+    {
+        $this->getMainContext()->getSubcontext('mink')->assertPageAddress('access_denied');
+    }
+
 
 }

@@ -2,6 +2,7 @@ parameters:
     behat.listener.class: BddSBP\ReaderBundle\Listener\BehatListener
     reader.extension.class: BddSBP\ReaderBundle\Twig\Extension\ReaderExtension
     reader.security.login_handler.class: BddSBP\ReaderBundle\Authentication\Handler\ReaderLoginSuccessHandler
+    authentication.entry_point.class: BddSBP\ReaderBundle\Authentication\EntryPoint\AuthenticationEntryPoint
 services:
 #    reader.example:
 #        class: %reader.example.class%
@@ -19,4 +20,6 @@ services:
     reader.security.login_handler:
        class:  %reader.security.login_handler.class%
        arguments: ['@security.context','@session','@router']
-       
+    authentication.entry_point:
+       class: %authentication.entry_point.class%
+       arguments: ['@router']

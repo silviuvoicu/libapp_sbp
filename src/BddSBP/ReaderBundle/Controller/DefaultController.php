@@ -10,4 +10,9 @@ class DefaultController extends Controller
     {
         return $this->render('ReaderBundle:Default:index.html.twig');
     }
+    
+    public function access_deniedAction()
+    {
+         return $this->render('ReaderBundle:Default:access_denied.html.twig');
+    }        
 }

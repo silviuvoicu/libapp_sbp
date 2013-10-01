@@ -17,3 +17,6 @@ reader_login_check:
 logout:
     path:   /logout   
 
+access_denied:
+  pattern: /access_denied
+  defaults: { _controller: ReaderBundle:Default:access_denied }

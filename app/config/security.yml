@@ -3,6 +3,9 @@
 #    expressions: true
 
 security:
+    
+    access_denied_url: /access_denied 
+  
     encoders:
         BddSBP\ReaderBundle\Entity\Reader: { algorithm: sha512, iterations: 10 }
 
@@ -20,6 +23,8 @@ security:
             security: false
        
         secured_area:
+            pattern:    '@*'
+            entry_point: authentication.entry_point
             pattern:    ^/
             provider:   readers
             anonymous: ~
@@ -33,10 +38,12 @@ security:
                 # for php 5.4.9 the problem with Logout action: SessionHandler::write():
                 # Parent session handler is not open fix in php 5.4.11
                 invalidate_session: false
-                
+               
             #anonymous: ~
             #http_basic:
             #    realm: "Secured Demo Area"
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '@book_new', roles: ROLE_USER }
+        - { path: '@book_create', roles: ROLE_USER }
