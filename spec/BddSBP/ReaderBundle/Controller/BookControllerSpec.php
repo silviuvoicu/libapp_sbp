@@ -20,13 +20,19 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 //use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use BddSBP\ReaderBundle\Entity\Book;
 use BddSBP\ReaderBundle\Form\BookType;
-//use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-//use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use \stdClass;
 
 class BookControllerSpec extends ObjectBehavior
 {
-     function let(Container $container, Registry $doctrine,EntityManager $entityManager,EntityRepository $repository, Request $request, FormFactory $formFactory, FormBuilder $formBuilder, Form $form, FormView $formView, Router $router, Session $session, FlashBag $flashBag)
+     function let(Container $container, Registry $doctrine,EntityManager $entityManager,EntityRepository $repository, 
+             Request $request, FormFactory $formFactory, FormBuilder $formBuilder, Form $form, FormView $formView,
+             SecurityContext $securityContext,UsernamePasswordToken $token,
+             Router $router, Session $session, FlashBag $flashBag)
                 {
         $container->get('doctrine')->willReturn($doctrine);
         $container->get('form.factory')->willReturn($formFactory);
@@ -34,7 +40,7 @@ class BookControllerSpec extends ObjectBehavior
         $container->get('router')->willReturn($router);
         $container->get('session')->willReturn($session);
 //        $container->get('security.encoder_factory')->willReturn($encoderFactory);
-//        $container->get('security.context')->willReturn($securityContext);
+        $container->get('security.context')->willReturn($securityContext);
         $session->getFlashBag()->willReturn($flashBag);
 
         $router->generate(Argument::cetera())->willReturn('url');
@@ -47,7 +53,11 @@ class BookControllerSpec extends ObjectBehavior
         $doctrine->getManager()->willReturn($entityManager);
         $entityManager->getRepository(Argument::any())->willReturn($repository);
 //        $encoderFactory->getEncoder(Argument::any())->willReturn($encoder);
-//        $securityContext->setToken(Argument::any())->willReturn($token);
+         $token->isAuthenticated()->willReturn(true);
+        $securityContext->setToken($token)->willReturn($token);
+        
+        $securityContext->getToken()->willReturn($token);
+        $token->getUser()->willReturn($token);
      
         $this->setContainer($container);
     }
@@ -61,8 +71,13 @@ class BookControllerSpec extends ObjectBehavior
     {
         $this->shouldBeAnInstanceOf('Symfony\Component\DependencyInjection\ContainerAware');
     }
-    function its_newAction_should_render_new_form($form, $formView, $formFactory,Book $book, BookType $booktype)
+    function its_newAction_should_render_new_form($form, $formView, $formFactory,Book $book, BookType $booktype,SecurityContext $securityContext )
     {
+        // $anonToken = new AnonymousToken(uniqid(),'anon.',array());
+       
+//        var_dump($securityContext->getToken()); die;
+        $securityContext->isGranted('ROLE_USER')->willReturn(true);
+        
         $formFactory->create($booktype, $book)->willReturn($form);
   
         $form->createView()->willReturn($formView);

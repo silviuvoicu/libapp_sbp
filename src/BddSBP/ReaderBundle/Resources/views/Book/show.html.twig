@@ -15,7 +15,7 @@
   <hr />
   
   
-     
+     {% if is_granted('DELETE',book) %}
  
     
   <form style="display:inline" class="pull-right"  action="{{ path('book_delete', { 'id': book.id }) }}" method="post">
@@ -26,12 +26,14 @@
          
       </form>
   <p class="pull-right">&nbsp;</p>
+  {% endif %}
+  {% if is_granted('EDIT',book) %}
   <p class="pull-right">
     <a href="{{ path('book_edit',{'id':book.id})}}">Edit</a> 
       
 </p>
         
-  
+  {% endif %}
       
     
 </div>

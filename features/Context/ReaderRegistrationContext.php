@@ -12,7 +12,7 @@ require_once 'PHPUnit/Framework/Assert/Functions.php';
 
 class ReaderRegistrationContext extends BaseContext
 {
-    
+     
     /**
      * @Given /^I am a guest$/
      */
@@ -136,6 +136,7 @@ class ReaderRegistrationContext extends BaseContext
         $em= $this->getEntityManager();
         $em->persist($reader);
         $em->flush();
+        return $reader;
     }
 
     /**

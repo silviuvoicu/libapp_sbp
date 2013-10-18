@@ -3,7 +3,8 @@
 #    expressions: true
 
 security:
-    
+    acl:
+        connection: default
     access_denied_url: /access_denied 
   
     encoders:
@@ -47,3 +48,7 @@ security:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: '@book_new', roles: ROLE_USER }
         - { path: '@book_create', roles: ROLE_USER }
+        - { path: '@book_edit', roles: ROLE_USER }
+        - { path: '@book_update', roles: ROLE_USER }
+        - { path: '@book_delete', roles: ROLE_USER }
+        

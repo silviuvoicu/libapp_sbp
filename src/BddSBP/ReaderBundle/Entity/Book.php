@@ -4,6 +4,8 @@ namespace BddSBP\ReaderBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use BddSBP\ReaderBundle\Entity\Reader;
+use Symfony\Component\Security\Acl\Model\DomainObjectInterface;
 
 /**
  * Book
@@ -12,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="books")
  * @ORM\Entity()
  */
-class Book
+class Book implements DomainObjectInterface
 {
     /**
      * @var integer
@@ -61,6 +63,14 @@ class Book
       */
     private $updatedAt;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="Reader", inversedBy="books")
+     * @ORM\JoinColumn(name="reader_id", referencedColumnName="id")
+     * 
+     * @var Reader $reader
+     */
+    private $reader;
+    
     public function getId()
     {
         return $this->id;
@@ -106,6 +116,29 @@ class Book
        return $this->author;
     }
     
+     public function __toString() {
+        return $this->getTitle();
+    }
+     /**
+     * Gets the reader who created the book.
+     * 
+     * @return Reader A Reader object
+     */
+    public function getReader()
+    {
+        return $this->reader;
+    }
+    
+    /**
+     * Sets the reader who created the book.
+     * 
+     * @param Reader $value The reader
+     */
+    public function setReader( Reader $value )
+    {
+        $this->reader = $value;
+    }
+    
     /**
      * @ORM\PrePersist
      */
@@ -122,5 +155,9 @@ class Book
    {
     $this->updatedAt = new \DateTime();
    }
+   
+    public function getObjectIdentifier() {
+        return $this->getId();
+    }
     
 }

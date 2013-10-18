@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use BddSBP\ReaderBundle\Entity\Book;
 
 
 /**
@@ -52,7 +54,22 @@ class Reader implements UserInterface,\Serializable
       * @ORM\Column(type="datetime")
       */
     private $updatedAt;
+    
+     /**
+     * @ORM\OneToMany(targetEntity="Book", mappedBy="reader")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     *
+     * @var ArrayCollection $books
+     */
+    private $books;
 
+    /**
+     * Constructs a new instance of Reader
+     */
+    public function __construct()
+    {
+        $this->books = new ArrayCollection();
+    }
 
     public function setEmail($email)
     {
@@ -104,6 +121,28 @@ class Reader implements UserInterface,\Serializable
    {
     $this->updatedAt = new \DateTime();
    }
+   
+   /**
+     * Gets all of the reader's books
+     *
+     * @return ArrayCollection The reader's books
+     */
+    public function getBooks()
+    {
+        return $this->books;
+    }
+
+    
+     /**
+     * Add books
+     *
+     * @param BddSBP\ReaderBundle\Entity\Book $books
+     */
+    public function addBook(Book $books)
+    {
+        $this->books[] = $books;
+    }
+
 
     public function eraseCredentials() {
         
@@ -123,7 +162,7 @@ class Reader implements UserInterface,\Serializable
     public function serialize()
     {
         return serialize(array(
-            $this->id, $this->email,$this->password,$this->salt,$this->createdAt,$this->updatedAt
+            $this->id, $this->email,$this->password,$this->salt,$this->createdAt,$this->updatedAt,$this->books
         ));
     }
 
@@ -133,7 +172,7 @@ class Reader implements UserInterface,\Serializable
     public function unserialize($serialized)
     {
         list (
-            $this->id, $this->email,$this->password,$this->salt,$this->createdAt,$this->updatedAt
+            $this->id, $this->email,$this->password,$this->salt,$this->createdAt,$this->updatedAt,$this->books
         ) = unserialize($serialized);
     }
     

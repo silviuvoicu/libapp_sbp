@@ -9,6 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use BddSBP\ReaderBundle\Entity\Book;
 use BddSBP\ReaderBundle\Form\BookType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 class BookController extends Controller
 {
@@ -19,6 +22,16 @@ class BookController extends Controller
      */
     public function newAction()
     {
+         $securityContext = $this->get('security.context');
+//         $this->get('ladybug')->log($this->get('security.authentication.provider.anonymous'));
+//         var_dump($securityContext);
+//         die;
+        if (false === $securityContext->isGranted('ROLE_USER')) {
+            $url = $this->container->get('router')->generate('access_denied');
+          
+           return $this->redirect($url); 
+        }
+        
         $book = new Book();
         $form   = $this->createForm(new BookType(), $book);
 
@@ -40,13 +53,35 @@ class BookController extends Controller
         $book  = new Book();
         $form = $this->createForm(new BookType(), $book);
         $form->handleRequest($request);
-
+          $securityContext = $this->get('security.context');
+//         $this->get('ladybug')->log($this->get('security.authentication.provider.anonymous'));
+//         var_dump($securityContext);
+//         die;
+        if (false === $securityContext->isGranted('ROLE_USER')) {
+            $url = $this->container->get('router')->generate('access_denied');
+          
+           return $this->redirect($url); 
+        }
         if ($form->isValid()) {
             $book = $form->getData();
+            $reader = $this->container->get('security.context')->getToken()->getUser();
+            $book->setReader($reader);
             $em = $this->container->get('doctrine')->getManager();
             $em->persist($book);
             $em->flush();
+            // creating the ACL
+           // ld($book);
+            $aclProvider = $this->get('security.acl.provider');
+            $objectIdentity = ObjectIdentity::fromDomainObject($book);
+            $acl = $aclProvider->createAcl($objectIdentity);
+
+            // retrieving the security identity of the currently logged-in user
             
+            $securityIdentity = UserSecurityIdentity::fromAccount($reader);
+
+            // grant owner access
+            $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
+            $aclProvider->updateAcl($acl);
             $this->container->get('session')->getFlashBag()->add(
             'success',
             'You added new book into your library'
@@ -120,10 +155,18 @@ class BookController extends Controller
      */
      public function editAction($id)
     {
-         $em = $this->container->get('doctrine')->getManager();
+        $em = $this->container->get('doctrine')->getManager();
 
         $book = $em->getRepository('ReaderBundle:Book')->find($id);
-
+         $securityContext = $this->get('security.context');
+         //$token = $securityContext->getToken();
+        // check for edit access
+         
+        if (false === $securityContext->isGranted('EDIT', $book)) {
+            $url = $this->container->get('router')->generate('access_denied');
+          
+           return $this->redirect($url); 
+        }
         if (!$book) {
             $this->container->get('session')->getFlashBag()->add(
             'errors',
@@ -153,9 +196,19 @@ class BookController extends Controller
     public function updateAction(Request $request, $id)
     {
         //var_dump($request->isMethod("PUT"));//die;
+        
         $em = $this->container->get('doctrine')->getManager();
 
         $book = $em->getRepository('ReaderBundle:Book')->find($id);
+         $securityContext = $this->get('security.context');
+         //$token = $securityContext->getToken();
+        // check for edit access
+         
+        if (false === $securityContext->isGranted('EDIT', $book)) {
+            $url = $this->container->get('router')->generate('access_denied');
+          
+           return $this->redirect($url); 
+        }
 
         if (!$book) {
              $this->container->get('session')->getFlashBag()->add(
@@ -199,6 +252,16 @@ class BookController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+//         $securityContext = $this->get('security.context');
+//         //$token = $securityContext->getToken();
+//        // check for edit access
+//         
+//        if (false === $securityContext->isGranted('DELETE', $book)) {
+//            $url = $this->container->get('router')->generate('access_denied');
+//          
+//           return $this->redirect($url); 
+//        }
+        
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
         $form->submit($request);
@@ -206,7 +269,15 @@ class BookController extends Controller
         if ($form->isValid()) {
             $em = $this->container->get('doctrine')->getManager();
             $book = $em->getRepository('ReaderBundle:Book')->find($id);
-
+           $securityContext = $this->get('security.context');
+         //$token = $securityContext->getToken();
+        // check for edit access
+         
+        if (false === $securityContext->isGranted('DELETE', $book)) {
+            $url = $this->container->get('router')->generate('access_denied');
+          
+           return $this->redirect($url); 
+        }
             if (!$book) {
                $this->container->get('session')->getFlashBag()->add(
             'errors',

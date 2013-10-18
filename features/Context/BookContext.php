@@ -3,7 +3,9 @@ namespace Context;
 
 use Behat\Behat\Exception\PendingException;
 use BddSBP\ReaderBundle\Entity\Book;
-
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 require_once 'PHPUnit/Autoload.php';
 require_once 'PHPUnit/Framework/Assert/Functions.php';
@@ -210,6 +212,116 @@ class BookContext extends BaseContext
     {
         $this->getMainContext()->getSubcontext('mink')->assertPageAddress('access_denied');
     }
+    
+     /**
+     * @Given /^I am the owner of "([^"]*)" book$/
+     */
+    public function iAmTheOwnerOfBook($title)
+    {
+        $this->getMainContext()->getSubcontext('reader_registration')->iAmAReader("rem@email.com");
+        $em= $this->getEntityManager();
+        $reader = $em->getRepository("ReaderBundle:Reader")->findOneByEmail("rem@email.com");
+        $book = new Book();
+        $book->setTitle($title);
+        $book->setPages(150);
+        $book->setAuthor('William Shakespeare');
+        $book->setDescription('Excellent play!');
+        $book->setReader($reader);
+        
+       
+        $em->persist($book);
+        $em->flush();
+        
+         $aclProvider = $this->getService('security.acl.provider');
+        $objectIdentity = ObjectIdentity::fromDomainObject($book);
+        $acl = $aclProvider->createAcl($objectIdentity);
 
+            // retrieving the security identity of the currently logged-in user
+            
+        $securityIdentity = UserSecurityIdentity::fromAccount($reader);
+
+            // grant owner access
+        $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
+        $aclProvider->updateAcl($acl);
+        
+        
+    }
+
+    /**
+     * @When /^I change "([^"]*)" book title to "([^"]*)"$/
+     */
+    public function iChangeBookTitle1ToTitle2($title1, $title2)
+    {
+        $em= $this->getEntityManager();
+        $book = $em->getRepository("ReaderBundle:Book")->findOneByTitle($title1);
+        $this->getMainContext()->getSubcontext('mink')->visit($this->getMainContext()->getSubcontext('mink')->getMinkParameter("base_url").$this->generateUrl('book_edit',array('id'=>$book->getId())));
+        $this->getMainContext()->getSubcontext('mink')->fillField("book_title", $title2);
+        $this->getMainContext()->getSubcontext('mink')->pressButton("Update Book"); 
+    }
+
+    /**
+     * @When /^I delete "([^"]*)" book$/
+     */
+    public function iDeleteBook($title)
+    {
+        $em= $this->getEntityManager();
+        $book = $em->getRepository("ReaderBundle:Book")->findOneByTitle($title);
+        $this->getMainContext()->getSubcontext('mink')->visit($this->getMainContext()->getSubcontext('mink')->getMinkParameter("base_url").$this->generateUrl('book_edit',array('id'=>$book->getId())));
+        $this->getMainContext()->getSubcontext('mink')->pressButton("Delete");
+    }
+    
+     /**
+     * @Given /^"([^"]*)" reader should be the owner of this book$/
+     */
+    public function readerShouldBeTheOwnerOfThisBook($email)
+    {
+        $em= $this->getEntityManager();
+        $book = $em->getRepository("ReaderBundle:Book")->findOneByTitle("The Hamlet");
+        $reader = $em->getRepository("ReaderBundle:Reader")->findOneByEmail($email);
+        assertEquals($book->getReader(),$reader,"The reader $reader is not the owner of the book $book");
+    }
+
+   
+     /**
+     * @Given /^I am not the owner of "([^"]*)" book$/
+     */
+    public function iAmNotTheOwnerOfBook($title)
+    {
+        $this->getMainContext()->getSubcontext('reader_registration')->iAmAReader("rem@email.com");
+        $bob = $this->getMainContext()->getSubcontext('reader_registration')->readerWithExists("bob@email.com");
+        $em= $this->getEntityManager();
+        $book = new Book();
+        $book->setTitle($title);
+        $book->setPages(150);
+        $book->setAuthor('William Shakespeare');
+        $book->setDescription('Excellent play!');
+        $book->setReader($bob);
+              
+        $em->persist($book);
+        $em->flush();
+        
+        $aclProvider = $this->getService('security.acl.provider');
+        $objectIdentity = ObjectIdentity::fromDomainObject($book);
+        $acl = $aclProvider->createAcl($objectIdentity);
+
+            // retrieving the security identity of the currently logged-in user
+            
+        $securityIdentity = UserSecurityIdentity::fromAccount($bob);
+
+            // grant owner access
+        $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
+        $aclProvider->updateAcl($acl);
+        
+    }
+
+    /**
+     * @When /^I go to edit "([^"]*)" book page$/
+     */
+    public function iGoToEditBookPage($title)
+    {
+        $em= $this->getEntityManager();
+        $book = $em->getRepository("ReaderBundle:Book")->findOneByTitle($title);
+        $this->getMainContext()->getSubcontext('mink')->visit($this->getMainContext()->getSubcontext('mink')->getMinkParameter("base_url").$this->generateUrl('book_edit',array('id'=>$book->getId())));
+    }
 
 }

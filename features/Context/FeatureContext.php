@@ -69,6 +69,13 @@ class FeatureContext extends RawMinkContext implements KernelAwareInterface
 
         $purger = new ORMPurger($em);
         $purger->purge();
+        
+        $conn = $this->kernel->getContainer()->get('database_connection');
+        $conn->executeQuery('DELETE FROM acl_classes');
+        $conn->executeQuery('DELETE FROM acl_entries ');
+        $conn->executeQuery('DELETE FROM acl_object_identities');
+        $conn->executeQuery('DELETE FROM acl_object_identity_ancestors');
+        $conn->executeQuery('DELETE FROM acl_security_identities');
     }
    
 
