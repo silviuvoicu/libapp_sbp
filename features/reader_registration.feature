@@ -5,9 +5,13 @@ Feature: Reader Registration
 #  @javascript
   Scenario: Reader registers successfully via register form
       Given I am a guest
-      When I fill the register form with valid data
+      When I do not follow redirects
+      And I fill the register form with valid data
       Then I should be registered in application
+      And I should receive welcome email
+      And I should be redirected to "/"
       And I should be logged in
+       
 
    Scenario: Reader tries to register with invalid data
       Given I am a guest

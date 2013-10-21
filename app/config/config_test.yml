@@ -6,7 +6,7 @@ framework:
     session:
         storage_id: session.storage.mock_file
     profiler:
-        enabled: false
+        enabled: true
 doctrine:
     dbal:
         dbname:   %database_name%_test

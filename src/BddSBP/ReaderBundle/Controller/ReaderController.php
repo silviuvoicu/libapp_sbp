@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use BddSBP\ReaderBundle\Entity\Reader;
 use BddSBP\ReaderBundle\Form\ReaderType;
+use BddSBP\ReaderBundle\Event\ReaderEmailRegistrationEvent;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class ReaderController extends Controller
@@ -71,6 +72,8 @@ class ReaderController extends Controller
           // var_dump($reader->getRoles());die;
             $token = new UsernamePasswordToken($reader, $reader->getPassword(), 'readers', $reader->getRoles());
             $this->container->get('security.context')->setToken($token);
+            $dispatcher = $this->get('event_dispatcher');
+            $dispatcher->dispatch('reader.email.registration', new ReaderEmailRegistrationEvent($reader));
             $url = $this->container->get('router')->generate('home');
             return $this->redirect($url);
         }

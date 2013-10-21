@@ -31,7 +31,7 @@ class ReaderRegistrationContext extends BaseContext
            $this->getMainContext()->getSubcontext('mink')->fillField("reader_password_first", "password");
            $this->getMainContext()->getSubcontext('mink')->fillField("reader_password_second", "password");
            $this->getMainContext()->getSubcontext('mink')->pressButton("reader_register");
-
+   
       
     }
 
@@ -176,6 +176,13 @@ class ReaderRegistrationContext extends BaseContext
         $this->getMainContext()->getSubcontext('mink')->assertPageContainsText('Register');
     }
 
+     /**
+     * @Given /^I should receive welcome email$/
+     */
+    public function iShouldReceiveWelcomeEmail()
+    {
+       $this->getMainContext()->getSubcontext('symfony_mailer_context')->emailWithSubjectShouldHaveBeenSent("Libapp_sbp registration","reader01@email.com");
+    }
 
 }
 

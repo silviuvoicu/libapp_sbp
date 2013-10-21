@@ -3,6 +3,7 @@ parameters:
     reader.extension.class: BddSBP\ReaderBundle\Twig\Extension\ReaderExtension
     reader.security.login_handler.class: BddSBP\ReaderBundle\Authentication\Handler\ReaderLoginSuccessHandler
     authentication.entry_point.class: BddSBP\ReaderBundle\Authentication\EntryPoint\AuthenticationEntryPoint
+    reader.email.registration.listener.class: BddSBP\ReaderBundle\EventListener\ReaderEmailRegistrationListner
 services:
 #    reader.example:
 #        class: %reader.example.class%
@@ -23,3 +24,9 @@ services:
     authentication.entry_point:
        class: %authentication.entry_point.class%
        arguments: ['@router']
+    reader.email.registration.listener:
+       class: %reader.email.registration.listener.class%
+       arguments: ['@mailer']
+       tags:
+          - { name: kernel.event_listener, event: reader.email.registration, method: onReaderEmailRegistrationEvent }
+     

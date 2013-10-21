@@ -3,6 +3,8 @@ namespace Context;
 
 use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\MinkExtension\Context\MinkContext;
+use Behat\CommonContexts\MinkRedirectContext;
+use Behat\CommonContexts\SymfonyMailerContext;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -46,6 +48,8 @@ class FeatureContext extends RawMinkContext implements KernelAwareInterface
         
          $this->useContext('reader_registration', new ReaderRegistrationContext($parameters)); 
          $this->useContext('books_management', new BookContext($parameters)); 
+         $this->useContext('symfony_mailer_context', new SymfonyMailerContext());
+         $this->useContext('mink_redirect_context', new MinkRedirectContext());
          $this->useContext('mink', new  MinkContext()); 
          
          

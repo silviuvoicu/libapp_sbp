@@ -52,7 +52,8 @@
         "behat/mink-extension": "*",
         "behat/mink-browserkit-driver": "*",
         "phpspec/phpspec": "dev-master",
-        "behat/mink-selenium2-driver": "*"
+        "behat/mink-selenium2-driver": "*",
+        "behat/common-contexts": "1.2.*@dev"
     },
     "scripts": {
         "post-install-cmd": [

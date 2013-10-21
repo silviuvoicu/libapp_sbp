@@ -22,12 +22,17 @@ use BddSBP\ReaderBundle\Entity\Reader;
 use BddSBP\ReaderBundle\Form\ReaderType;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use \stdClass;
 
 class ReaderControllerSpec extends ObjectBehavior
 {
     
-    function let(Container $container, Registry $doctrine,EntityManager $entityManager,EntityRepository $repository, Request $request, FormFactory $formFactory, FormBuilder $formBuilder, Form $form, FormView $formView, Router $router, Session $session, FlashBag $flashBag,EncoderFactory $encoderFactory, MessageDigestPasswordEncoder $encoder,SecurityContext $securityContext, UsernamePasswordToken $token) {
+    function let(Container $container, Registry $doctrine,EntityManager $entityManager,EntityRepository $repository, 
+            Request $request, FormFactory $formFactory, FormBuilder $formBuilder, Form $form, FormView $formView, 
+            Router $router, Session $session, FlashBag $flashBag,EncoderFactory $encoderFactory, 
+            MessageDigestPasswordEncoder $encoder,SecurityContext $securityContext, UsernamePasswordToken $token ,
+            EventDispatcher $eventDispatcher) {
         $container->get('doctrine')->willReturn($doctrine);
         $container->get('form.factory')->willReturn($formFactory);
         $container->get('request')->willReturn($request);
@@ -35,6 +40,7 @@ class ReaderControllerSpec extends ObjectBehavior
         $container->get('session')->willReturn($session);
         $container->get('security.encoder_factory')->willReturn($encoderFactory);
         $container->get('security.context')->willReturn($securityContext);
+        $container->get('event_dispatcher')->willReturn($eventDispatcher);
         $session->getFlashBag()->willReturn($flashBag);
 
         $router->generate(Argument::cetera())->willReturn('url');
