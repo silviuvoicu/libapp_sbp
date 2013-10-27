@@ -1,21 +1,17 @@
-This is copycat in symfony2, behat, mink, phpspec2 for this https://github.com/Remchi/libapp 
+This is copy in symfony2, behat, mink, phpspec  for this https://github.com/Remchi/libapp 
 which is made with ruby on rails, cucumber, rspec. 
-It's a work in progress, it's not 100 % copied, or just to say not yet similiar to. 
+Now, it's 100 % copied, but with couple of differences:
+ - I can't spec my view files
+ - some things are done by the framework,  so there's no specs or code
+ - specking the controllers, doesn't have much sense, they are better suited for an functional
+   test or acceptance test, add all was ok, until I have to mock the security.context
+
+Important is the way of working/thinking which is bdd in both cases.
+I learn a lot doing this project, and hope to do more projects in the same manner. 
+
 I get also my inspiration from sylius project, and of course from the documentation of 
-symfony2, behat, mink, phpspec2. 
-I hope to finish this repo at same level as his cousin :)
+symfony2, behat, mink, phpspec. 
 
-Now either, clone or install/create a new project for symfony2 version 2.2
-add in the composer.json the following lines, before scripts
-     
-      "require-dev": {
-        "behat/behat":                       "2.4.*",
-        "behat/symfony2-extension":          "*",
-        "behat/mink-extension":              "*",
-        "behat/mink-browserkit-driver":      "*",
-        "phpspec/phpspec2":                  "dev-develop",
-        "behat/mink-selenium2-driver":       "*"
-    }
 
-And then using composer, install also the dev requirements.
-
+If you want to test it, just clone it.
+It's just a copied version, with the same functionalities, nothing more or less than the original.
