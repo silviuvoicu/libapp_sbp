@@ -64,11 +64,22 @@ class BookController extends Controller
         }
         if ($form->isValid()) {
             $book = $form->getData();
+           
             $reader = $this->container->get('security.context')->getToken()->getUser();
             $book->setReader($reader);
             $em = $this->container->get('doctrine')->getManager();
+          //   $this->container->get('vich_uploader.storage')->upload($book);
+//            var_dump($book);die;
             $em->persist($book);
+             
             $em->flush();
+//           
+//             $this->container->get('vich_uploader.storage')->upload($book);
+            
+//             ld($book->getImage());
+//              ldd($book->getCover());
+            
+//              ldd($book);
             // creating the ACL
            // ld($book);
             $aclProvider = $this->get('security.acl.provider');

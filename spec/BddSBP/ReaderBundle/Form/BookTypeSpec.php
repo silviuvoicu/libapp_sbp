@@ -36,6 +36,7 @@ class BookTypeSpec extends ObjectBehavior
         $builder->add('title', 'text', Argument::cetera())->shouldBeCalled()->willReturn($builder);
         $builder->add('author', 'text', Argument::cetera())->shouldBeCalled()->willReturn($builder);
         $builder->add('pages', 'integer', Argument::cetera())->shouldBeCalled()->willReturn($builder);
+        $builder->add('image','file', Argument::cetera())->shouldBeCalled()->willReturn($builder);
         $builder->add('description', 'textarea', Argument::cetera())->shouldBeCalled()->willReturn($builder);
         $this->buildForm($builder, []);
     }

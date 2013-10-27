@@ -29,7 +29,8 @@ class BookType extends AbstractType
             )))->add('author','text',array('label' => 'Author', 'attr' => array(
                 'placeholder' => 'Author'
             )))->add('pages','integer',array('label' => 'Pages')
-              )->add('description','textarea',array('label' => 'Description', 'attr' => array(
+              )->add('image','file',array('label'=>'Cover','required' => false,'data_class' => null))
+                ->add('description','textarea',array('label' => 'Description', 'attr' => array(
                 'placeholder' => 'Book description','rows'=>20,'cols' => 40  
             )));
         //->add('create_book', 'submit',array('label' => 'Create Book','attr' => array('class' => 'btn btn-primary')));

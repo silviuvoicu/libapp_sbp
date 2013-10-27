@@ -25,6 +25,7 @@ class BookContext extends BaseContext
         $this->getMainContext()->getSubcontext('mink')->fillField("book_pages", "150");
         $this->getMainContext()->getSubcontext('mink')->fillField("book_author", "William Shakespeare");
         $this->getMainContext()->getSubcontext('mink')->fillField("book_description", "Excellent play!");
+        $this->getMainContext()->getSubcontext('mink')->attachFileToField("book_image",$this->getService('kernel')->getRootDir().'/../spec/files/hamlet_cover.jpg');
         $this->getMainContext()->getSubcontext('mink')->pressButton("Create");
     }
 
@@ -43,8 +44,9 @@ class BookContext extends BaseContext
      */
     public function iShouldSeeItOnLibraryPage()
     {
-        $this->getMainContext()->getSubcontext('mink')->assertPageContainsText("The Hamlet");
-    }
+        assertContains('hamlet_cover.jpg',$this->getMainContext()->getSubcontext('mink')->getMink()->getSession()->getPage()->find('xpath',"//img[contains(@src,\"hamlet_cover.jpg\")]")->getAttribute('src'),"The cover image is not on library page");
+        $this->getMainContext()->getSubcontext('mink')->assertPageContainsText("The Hamlet");    
+    }    
 
     /**
      * @When /^I fill the new book form with empty title$/
@@ -177,7 +179,7 @@ class BookContext extends BaseContext
      */
     public function iShouldSeeBookOnLibraryPage($title)
     {
-        $this->getMainContext()->getSubcontext('mink')->assertPageContainsText($title);
+        $this->getMainContext()->getSubcontext('mink')->assertPageContainsText($title);                    
     }
 
     /**
@@ -323,5 +325,15 @@ class BookContext extends BaseContext
         $book = $em->getRepository("ReaderBundle:Book")->findOneByTitle($title);
         $this->getMainContext()->getSubcontext('mink')->visit($this->getMainContext()->getSubcontext('mink')->getMinkParameter("base_url").$this->generateUrl('book_edit',array('id'=>$book->getId())));
     }
-
+    
+     /**
+     * @Given /^book should have cover$/
+     */
+    public function bookShouldHaveCover()
+    {
+        $em= $this->getEntityManager();
+        $book = $em->getRepository("ReaderBundle:Book")->findOneByTitle("The Hamlet");
+        assertEquals($book->getImage()['originalName'],"hamlet_cover.jpg","The book doesn't have cover");
+    }
+    
 }

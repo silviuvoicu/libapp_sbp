@@ -25,6 +25,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+//use Vich\UploaderBundle\Storage\StorageInterface;
 use \stdClass;
 
 class BookControllerSpec extends ObjectBehavior
@@ -32,13 +33,14 @@ class BookControllerSpec extends ObjectBehavior
      function let(Container $container, Registry $doctrine,EntityManager $entityManager,EntityRepository $repository, 
              Request $request, FormFactory $formFactory, FormBuilder $formBuilder, Form $form, FormView $formView,
              SecurityContext $securityContext,UsernamePasswordToken $token,
-             Router $router, Session $session, FlashBag $flashBag)
+             Router $router, Session $session, FlashBag $flashBag ) //, StorageInterface $uploader)
                 {
         $container->get('doctrine')->willReturn($doctrine);
         $container->get('form.factory')->willReturn($formFactory);
         $container->get('request')->willReturn($request);
         $container->get('router')->willReturn($router);
         $container->get('session')->willReturn($session);
+//        $container->get('vich_uploader.storage')->willReturn($uploader);        
 //        $container->get('security.encoder_factory')->willReturn($encoderFactory);
         $container->get('security.context')->willReturn($securityContext);
         $session->getFlashBag()->willReturn($flashBag);
@@ -88,7 +90,8 @@ class BookControllerSpec extends ObjectBehavior
                               )
                             );
     }
-    function its_createAction_should_save_the_Book_when_form_is_valid($request,$router, $flashBag,$form, $formFactory, $entityManager, Book $book,BookType $booktype) {
+    function its_createAction_should_save_the_Book_when_form_is_valid($request,$router, $flashBag,$form, $formFactory, 
+                                                                      $entityManager, Book $book,BookType $booktype) {
         
         $formFactory->create($booktype, $book)->willReturn($form);
         $form->handleRequest($request)->willReturn($form);
@@ -96,7 +99,7 @@ class BookControllerSpec extends ObjectBehavior
         $form->getData()->willReturn($book);              
         $entityManager->persist($book)->shouldBeCalled();
         $entityManager->flush()->shouldBeCalled();
-
+//        $uploader->upload($book)->shouldBeCalled();
         $flashBag->add(
             'success',
             'You added new book into your library'

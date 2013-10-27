@@ -43,7 +43,8 @@
         "leafo/lessphp": "v0.4.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "madesst/security-extra-bundle": "dev-master",
-        "raulfraile/ladybug-bundle": "~1.0"
+        "raulfraile/ladybug-bundle": "~1.0",
+        "iphp/filestore-bundle":"dev-master"
    
     },
     "require-dev": {

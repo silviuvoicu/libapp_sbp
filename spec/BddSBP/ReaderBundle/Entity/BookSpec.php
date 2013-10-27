@@ -4,6 +4,7 @@ namespace spec\BddSBP\ReaderBundle\Entity;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\HttpFoundation\File\File;
 
 class BookSpec extends ObjectBehavior
 {
@@ -29,6 +30,13 @@ class BookSpec extends ObjectBehavior
         $this->setPages(123);
         $this->getPages()->shouldReturn(123);
     }
+    function its_image_is_mutable()
+    {
+        $image = new File('spec/files/hamlet_cover.jpg');
+        $this->setImage($image);
+        $this->getImage()->shouldReturn($image);
+    }
+    
     function its_description_is_mutable()
     {
         $this->setDescription("description");

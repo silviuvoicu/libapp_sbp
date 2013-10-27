@@ -6,13 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use BddSBP\ReaderBundle\Entity\Reader;
 use Symfony\Component\Security\Acl\Model\DomainObjectInterface;
-
+use Iphp\FileStoreBundle\Mapping\Annotation as FileStore;
+use Symfony\Component\HttpFoundation\File\File;
 /**
  * Book
  * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="books")
  * @ORM\Entity()
+ * @FileStore\Uploadable
  */
 class Book implements DomainObjectInterface
 {
@@ -52,6 +54,19 @@ class Book implements DomainObjectInterface
      * @Assert\NotBlank(message="Book should have an author")
      */
     private $author;
+    
+    /**
+     * @Assert\File(
+     *     maxSize="1M",
+     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}
+     * )
+     * @FileStore\UploadableField(mapping="book")
+     * @ORM\Column(name="cover",type="array",nullable=true)
+     * 
+     */
+    protected $image;
+
+   
     
      /**
       * @ORM\Column(type="datetime")
@@ -160,4 +175,73 @@ class Book implements DomainObjectInterface
         return $this->getId();
     }
     
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return Book
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return Book
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set image
+     *
+     * @param array $image
+     * @return Book
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+    
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return array 
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
 }

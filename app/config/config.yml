@@ -32,10 +32,7 @@ bc_bootstrap:
     less_filter: lessphp
     assets_dir: %kernel.root_dir%/../vendor/twbs/bootstrap
     jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js
-raul_fraile_ladybug:
-    theme: modern # select the theme: base, modern or custom themes
-    expanded: false # true to expand all the variables tree by default
-    silenced: false # true to ignore all ladybug calls    
+
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
@@ -77,3 +74,16 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
 #    spool:     { type: memory }
+iphp_file_store:
+#    db_driver: orm # or mongodb
+#    gaufrette: false
+#    storage: vich_uploader.storage.file_system
+    mappings:
+        book:
+            upload_path: /uploads/book/cover
+#            directory_namer: custom.directory.namer
+            upload_dir: %kernel.root_dir%/../web/uploads/book/cover
+            directory_namer:
+               property:
+                   params: { field : "id"}
+#             
